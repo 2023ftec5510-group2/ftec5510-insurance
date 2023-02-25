@@ -1,23 +1,29 @@
-import {Card, CardContent, CardMedia, Typography} from "@mui/material";
-
-export default function PlanCard() {
+import {Card, CardContent, CardMedia, StandardProps, Typography} from "@mui/material";
 
 
+
+interface Props extends StandardProps<any, any>{
+    imgSrc: string
+    title: string
+    desc: string
+}
+
+export default function PlanCard(props: Props) {
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 345, height: 330 }}>
             <CardMedia
-                sx={{ height: 140 }}
-                image="/static/images/cards/contemplative-reptile.jpg"
+                component="img"
+                sx={{ height: 200}}
+                src={props.imgSrc}
                 title="green iguana"
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    Lizard
+                    {props.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
+                    {props.desc}
                 </Typography>
             </CardContent>
         </Card>
