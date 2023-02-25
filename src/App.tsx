@@ -9,6 +9,9 @@ import Payment, {PaymentMethod} from "./app/payment/Payment";
 import Header from "./app/header/Header";
 
 function App() {
+
+    const [selectedPlan, setSelectedPlan] = React.useState<number | null>(null)
+
     return (
         <div>
             <Header/>
@@ -19,22 +22,31 @@ function App() {
                         <Grid2 xs={4}>
                             <PlanCard
                                 imgSrc="/images/plans/plan-a.jpg"
+                                price={29.99}
                                 title="Basic Plan"
                                 desc="The most economical choice."
+                                selected={selectedPlan === 0}
+                                onClick={() => setSelectedPlan(0)}
                             />
                         </Grid2>
                         <Grid2 xs={4}>
                             <PlanCard
                                 imgSrc="/images/plans/plan-b.jpg"
+                                price={89.99}
                                 title="Prime Plan"
                                 desc="Peace of mind for your business."
+                                selected={selectedPlan === 1}
+                                onClick={() => setSelectedPlan(1)}
                             />
                         </Grid2>
                         <Grid2 xs={4}>
                             <PlanCard
                                 imgSrc="/images/plans/plan-c.jpg"
+                                price={299.99}
                                 title="Executive Plan"
                                 desc="A business traveller's best friend."
+                                selected={selectedPlan === 2}
+                                onClick={() => setSelectedPlan(2)}
                             />
                         </Grid2>
                     </Grid2>
