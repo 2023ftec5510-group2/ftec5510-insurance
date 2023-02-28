@@ -7,10 +7,26 @@ import PlanCard from "./app/plan/PlanCard";
 import Description from "./app/description/Description";
 import Payment, {PaymentMethod} from "./app/payment/Payment";
 import Header from "./app/header/Header";
+import querystring from "query-string";
 
 function App() {
 
     const [selectedPlan, setSelectedPlan] = React.useState<number | null>(null)
+
+    const onClickPayment = (paymentModel: PaymentMethod) => {
+        console.log(`clicked payment method: ${paymentModel}`)
+        if (selectedPlan === null) {
+            return
+        }
+        if (paymentModel === PaymentMethod.crypto) {
+            const queryParams = {
+                code: '12345',
+                redirectUrl: window.location.href
+            }
+
+            window.location.href = `http://localhost:3001/?${querystring.stringify(queryParams)}`
+        }
+    }
 
     return (
         <div>
@@ -62,13 +78,25 @@ function App() {
                     <Container maxWidth="md">
                         <Grid2 container spacing={4}>
                             <Grid2 xs={4}>
-                                <Payment imgSrc="/images/visa.svg" paymentMethod={PaymentMethod.visa}/>
+                                <Payment
+                                    imgSrc="/images/visa.svg"
+                                    paymentMethod={PaymentMethod.visa}
+                                    onClick={ () => onClickPayment(PaymentMethod.visa)}
+                                />
                             </Grid2>
                             <Grid2 xs={4}>
-                                <Payment imgSrc="/images/mastercard.svg" paymentMethod={PaymentMethod.mastercard}/>
+                                <Payment
+                                    imgSrc="/images/mastercard.svg"
+                                    paymentMethod={PaymentMethod.mastercard}
+                                    onClick={ () => onClickPayment(PaymentMethod.mastercard)}
+                                />
                             </Grid2>
                             <Grid2 xs={4}>
-                                <Payment imgSrc="/images/crypto.svg" paymentMethod={PaymentMethod.crypto}/>
+                                <Payment
+                                    imgSrc="/images/crypto.svg"
+                                    paymentMethod={PaymentMethod.crypto}
+                                    onClick={ () => onClickPayment(PaymentMethod.crypto)}
+                                />
                             </Grid2>
                         </Grid2>
                     </Container>

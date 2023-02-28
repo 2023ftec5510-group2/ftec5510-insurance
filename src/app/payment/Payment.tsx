@@ -15,7 +15,10 @@ export enum PaymentMethod {
 export default function Payment(props: Props) {
 
     return (
-        <Card sx={{height: "60px", padding: "20px"}}>
+        <Card
+            sx={{height: "60px", padding: "20px"}}
+            onClick={props.onClick}
+        >
             <img
                 src={props.imgSrc}
                 height="100%"
