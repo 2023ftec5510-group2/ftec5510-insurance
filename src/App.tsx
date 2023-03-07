@@ -19,8 +19,22 @@ function App() {
             return
         }
         if (paymentModel === PaymentMethod.crypto) {
+
+            let itemCode = ""
+            switch (selectedPlan) {
+                case 0:
+                    itemCode = "7e1fbb64-4299-4b19-a265-863b1e7b06c9"
+                    break
+                case 1:
+                    itemCode = "dfda2a6e-a8d4-430a-8372-6bde58d775ce"
+                    break
+                case 2:
+                    itemCode = "b1117f32-2c01-45e6-9ce1-aa8c8e4d1ee2"
+            }
+
             const queryParams = {
-                code: '12345',
+                merchantId: "15201",
+                itemCode: itemCode,
                 redirectUrl: window.location.href
             }
 
