@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {AppBar, Box, CardMedia, Container} from "@mui/material";
@@ -8,10 +8,42 @@ import Description from "./app/description/Description";
 import Payment, {PaymentMethod} from "./app/payment/Payment";
 import Header from "./app/header/Header";
 import querystring from "query-string";
+import ResultDialog from "./app/dialog/ResultDialog";
+import {Router, useHistory} from "react-router-dom";
+import {createBrowserHistory} from "history";
+
 
 function App() {
 
+    const history = createBrowserHistory()
+
+    const queryParams = new URLSearchParams(window.location.search)
+
+    const paymentResult = queryParams.get('result') //0: success, 1: user canceled, 2: expired: 3, 99: error
+    const paymentMerchantId = queryParams.get('merchantId')
+    const paymentPrepayId = queryParams.get('prepayId')
+
     const [selectedPlan, setSelectedPlan] = React.useState<number | null>(null)
+    const [openResultDialog, setOpenResultDialog] = React.useState<boolean>(false)
+
+    useEffect(() => {
+        if (paymentResult !== null) {
+            setOpenResultDialog(true)
+        } else {
+            setOpenResultDialog(false)
+        }
+    }, [paymentResult])
+
+    const handleCloseResultDialog = () => {
+        // const currentUrl = window.location.href;
+        // const urlWithoutQueryParams = currentUrl.split("?")[0];
+        // window.location.href = urlWithoutQueryParams;
+        // window.location.reload();
+
+        history.replace({search: ""})
+
+        setOpenResultDialog(false)
+    }
 
     const onClickPayment = (paymentModel: PaymentMethod) => {
         console.log(`clicked payment method: ${paymentModel}`)
@@ -43,7 +75,7 @@ function App() {
     }
 
     return (
-        <div>
+        <Router history={history}>
             <Header/>
 
             <Box mt={12}>
@@ -117,11 +149,38 @@ function App() {
                 </Box>
             </Box>
 
+            {
+                openResultDialog ? (
+                    <ResultDialog
+                        open={openResultDialog}
+                        onClose={() => {
+                            handleCloseResultDialog()
+                        }}
+                        result= {paymentResultString(paymentResult ? paymentResult : "99")}
+                        paymentResult={paymentResult ? paymentResult : "99"}
+                        paymentMerchantId={paymentMerchantId}
+                        paymentPrepayId={paymentPrepayId}
+                    />
+                ) : (
+                    <></>
+                )
+            }
 
-        </div>
+        </Router>
 
 
     );
+}
+
+const paymentResultString = (paymentResult: string) => {
+    switch (paymentResult) {
+        case "0":
+            return "success"
+        case "1":
+            return "user canceled"
+        default:
+            return "error"
+    }
 }
 
 export default App;
