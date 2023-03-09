@@ -69,8 +69,8 @@ function App() {
                 itemCode: itemCode,
                 redirectUrl: window.location.href
             }
-
-            window.location.href = `http://localhost:3001/?${querystring.stringify(queryParams)}`
+            const url = process.env.REACT_APP_CRYPTO_PAYMENT_URL || "http://localhost:3001"
+            window.location.href = `${url}/?${querystring.stringify(queryParams)}`
         }
     }
 
