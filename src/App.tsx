@@ -175,9 +175,9 @@ function App() {
 const paymentResultString = (paymentResult: string) => {
     switch (paymentResult) {
         case "0":
-            return "success"
+            return "Success"
         case "1":
-            return "user canceled"
+            return "User cancelled"
         default:
             return "error"
     }
