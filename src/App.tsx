@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {AppBar, Box, CardMedia, Container} from "@mui/material";
+import {AppBar, Box, CardMedia, Container, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import PlanCard from "./app/plan/PlanCard";
 import Description from "./app/description/Description";
@@ -11,6 +11,9 @@ import querystring from "query-string";
 import ResultDialog from "./app/dialog/ResultDialog";
 import {Router, useHistory} from "react-router-dom";
 import {createBrowserHistory} from "history";
+import Features from "./app/feature/Features";
+import TnC from "./app/tnc-checkbox/TncCheckBox";
+import PersonalInfo from "./app/personal-info/PersonalInfo";
 
 
 function App() {
@@ -78,41 +81,13 @@ function App() {
         <Router history={history}>
             <Header/>
 
-            <Box mt={12}>
-                <Container maxWidth="md">
-                    <Grid2 container spacing={4}>
-                        <Grid2 xs={4}>
-                            <PlanCard
-                                imgSrc="/images/plans/plan-a.jpg"
-                                price={29.99}
-                                title="Basic Plan"
-                                desc="The most economical choice."
-                                selected={selectedPlan === 0}
-                                onClick={() => setSelectedPlan(0)}
-                            />
-                        </Grid2>
-                        <Grid2 xs={4}>
-                            <PlanCard
-                                imgSrc="/images/plans/plan-b.jpg"
-                                price={89.99}
-                                title="Prime Plan"
-                                desc="Peace of mind for your business."
-                                selected={selectedPlan === 1}
-                                onClick={() => setSelectedPlan(1)}
-                            />
-                        </Grid2>
-                        <Grid2 xs={4}>
-                            <PlanCard
-                                imgSrc="/images/plans/plan-c.jpg"
-                                price={299.99}
-                                title="Executive Plan"
-                                desc="A business traveller's best friend."
-                                selected={selectedPlan === 2}
-                                onClick={() => setSelectedPlan(2)}
-                            />
-                        </Grid2>
-                    </Grid2>
-                </Container>
+            <Box mt={12} mb={12}>
+
+                <Box mt={4}>
+                    <Container maxWidth="md">
+                        <Features/>
+                    </Container>
+                </Box>
 
                 <Box mt={4}>
                     <Container maxWidth="md">
@@ -122,6 +97,63 @@ function App() {
 
                 <Box mt={4}>
                     <Container maxWidth="md">
+                        <Typography variant="h5">
+                            Select plan
+                        </Typography>
+                        <Box mt={1}/>
+                        <Grid2 container spacing={4}>
+                            <Grid2 xs={4}>
+                                <PlanCard
+                                    imgSrc="/images/plans/plan-a.jpg"
+                                    price={29.99}
+                                    title="Basic Plan"
+                                    desc="The most economical choice."
+                                    selected={selectedPlan === 0}
+                                    onClick={() => setSelectedPlan(0)}
+                                />
+                            </Grid2>
+                            <Grid2 xs={4}>
+                                <PlanCard
+                                    imgSrc="/images/plans/plan-b.jpg"
+                                    price={89.99}
+                                    title="Prime Plan"
+                                    desc="Peace of mind for your business."
+                                    selected={selectedPlan === 1}
+                                    onClick={() => setSelectedPlan(1)}
+                                />
+                            </Grid2>
+                            <Grid2 xs={4}>
+                                <PlanCard
+                                    imgSrc="/images/plans/plan-c.jpg"
+                                    price={299.99}
+                                    title="Executive Plan"
+                                    desc="A business traveller's best friend."
+                                    selected={selectedPlan === 2}
+                                    onClick={() => setSelectedPlan(2)}
+                                />
+                            </Grid2>
+                        </Grid2>
+                    </Container>
+                </Box>
+
+                <Box mt={4}>
+                    <Container maxWidth="md">
+                        <PersonalInfo/>
+                    </Container>
+                </Box>
+
+                <Box mt={2}>
+                    <Container maxWidth="md">
+                        <TnC/>
+                    </Container>
+                </Box>
+
+                <Box mt={4}>
+                    <Container maxWidth="md">
+                        <Typography variant="h5">
+                            Select payment method
+                        </Typography>
+                        <Box mt={1}/>
                         <Grid2 container spacing={4}>
                             <Grid2 xs={4}>
                                 <Payment
