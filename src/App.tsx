@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import {AppBar, Box, CardMedia, Container, Typography} from "@mui/material";
+import {Box, Container, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import PlanCard from "./app/plan/PlanCard";
 import Description from "./app/description/Description";
@@ -8,14 +8,15 @@ import Payment, {PaymentMethod} from "./app/payment/Payment";
 import Header from "./app/header/Header";
 import querystring from "query-string";
 import ResultDialog from "./app/dialog/ResultDialog";
-import {Router, useHistory} from "react-router-dom";
+import {Router} from "react-router-dom";
 import {createBrowserHistory} from "history";
 import Features from "./app/feature/Features";
 import TnC from "./app/tnc-checkbox/TncCheckBox";
-import PersonalInfo from "./app/personal-info/PersonalInfo";
+import PersonalInfoForm from "./app/personal-info/PersonalInfoForm";
 import Intro from "./app/intro/Intro";
 import Banner from "./app/banner/Banner";
 import LicenseBar from "./app/license-bar/LicenseBar";
+import PersonalInfo from "./domain/entities/order/personal-info";
 
 
 function App() {
@@ -27,9 +28,17 @@ function App() {
     const paymentResult = queryParams.get('result') //0: success, 1: user canceled, 2: expired: 3, 99: error
     const paymentMerchantId = queryParams.get('merchantId')
     const paymentPrepayId = queryParams.get('prepayId')
+    const encodePersonalInfo = queryParams.get('pi')
 
     const [selectedPlan, setSelectedPlan] = React.useState<number | null>(null)
     const [openResultDialog, setOpenResultDialog] = React.useState<boolean>(false)
+
+    const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: ""
+    });
 
     useEffect(() => {
         if (paymentResult !== null) {
@@ -40,13 +49,7 @@ function App() {
     }, [paymentResult])
 
     const handleCloseResultDialog = () => {
-        // const currentUrl = window.location.href;
-        // const urlWithoutQueryParams = currentUrl.split("?")[0];
-        // window.location.href = urlWithoutQueryParams;
-        // window.location.reload();
-
         history.replace({search: ""})
-
         setOpenResultDialog(false)
     }
 
@@ -69,10 +72,13 @@ function App() {
                     itemCode = "b1117f32-2c01-45e6-9ce1-aa8c8e4d1ee2"
             }
 
+            const encodePersonInfo = encodeURIComponent(JSON.stringify(personalInfo))
+
             const queryParams = {
                 merchantId: "15201",
                 itemCode: itemCode,
-                redirectUrl: window.location.href
+                redirectUrl: window.location.href,
+                pi: encodePersonInfo
             }
             const url = process.env.REACT_APP_CRYPTO_PAYMENT_URL || "http://localhost:3001"
             window.location.href = `${url}/?${querystring.stringify(queryParams)}`
@@ -152,7 +158,15 @@ function App() {
 
                 <Box mt={4}>
                     <Container maxWidth="md">
-                        <PersonalInfo/>
+                        <PersonalInfoForm
+                            personalInfo={personalInfo}
+                            onchange={ event => {
+                                setPersonalInfo({
+                                    ...personalInfo,
+                                    [event.name]: event.value
+                                })
+                            }}
+                        />
                     </Container>
                 </Box>
 
@@ -173,21 +187,21 @@ function App() {
                                 <Payment
                                     imgSrc="/images/visa.svg"
                                     paymentMethod={PaymentMethod.visa}
-                                    onClick={ () => onClickPayment(PaymentMethod.visa)}
+                                    onClick={() => onClickPayment(PaymentMethod.visa)}
                                 />
                             </Grid2>
                             <Grid2 xs={4}>
                                 <Payment
                                     imgSrc="/images/mastercard.svg"
                                     paymentMethod={PaymentMethod.mastercard}
-                                    onClick={ () => onClickPayment(PaymentMethod.mastercard)}
+                                    onClick={() => onClickPayment(PaymentMethod.mastercard)}
                                 />
                             </Grid2>
                             <Grid2 xs={4}>
                                 <Payment
-                                    imgSrc="/images/crypto.svg"
+                                    imgSrc="/images/stable-pay.svg"
                                     paymentMethod={PaymentMethod.crypto}
-                                    onClick={ () => onClickPayment(PaymentMethod.crypto)}
+                                    onClick={() => onClickPayment(PaymentMethod.crypto)}
                                 />
                             </Grid2>
                         </Grid2>
@@ -204,10 +218,11 @@ function App() {
                         onClose={() => {
                             handleCloseResultDialog()
                         }}
-                        result= {paymentResultString(paymentResult ? paymentResult : "99")}
+                        result={paymentResultString(paymentResult ? paymentResult : "99")}
                         paymentResult={paymentResult ? paymentResult : "99"}
                         paymentMerchantId={paymentMerchantId}
                         paymentPrepayId={paymentPrepayId}
+                        encodePersonalInfo={encodePersonalInfo}
                     />
                 ) : (
                     <></>

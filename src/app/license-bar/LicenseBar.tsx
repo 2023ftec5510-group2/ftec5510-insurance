@@ -24,7 +24,7 @@ function LicenseBar() {
     return (
         <BottomNavigation className={styles.classes.root}>
             <Typography variant="body2" color="text.secondary" align="center">
-                © 2023 My Company. All Rights Reserved.
+                © 2023 AAA Company. All Rights Reserved.
             </Typography>
         </BottomNavigation>
     );
