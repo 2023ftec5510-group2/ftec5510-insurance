@@ -51,18 +51,10 @@ export default function Header() {
                 <Toolbar>
                     <FlightIcon fontSize="large"/>
                     <Typography align="left" variant="h5" component="div" ml={2}>
-                        Insurance company
+                        AAA Insurance
                     </Typography>
                 </Toolbar>
             </AppBar>
-            {/*<AppBar>*/}
-            {/*    <IconButton edge="start" color="inherit" aria-label="logo">*/}
-            {/*        <FlightIcon/>*/}
-            {/*        <Typography align="left" variant="h6" component="div" ml={1}>*/}
-            {/*            Insurance company*/}
-            {/*        </Typography>*/}
-            {/*    </IconButton>*/}
-            {/*</AppBar>*/}
         </div>
     )
 }

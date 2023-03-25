@@ -12,6 +12,8 @@ interface Props extends StandardProps<any, any> {
 
 export default function PlanCard(props: Props) {
 
+    const textColor = props.selected ? "dark" : "grey"
+
     return (
         <Card
             sx={{
@@ -39,13 +41,13 @@ export default function PlanCard(props: Props) {
                 title="green iguana"
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h5" component="div" color={textColor}>
                     {"$" + props.price}
                 </Typography>
-                <Typography gutterBottom variant="h6" component="div">
+                <Typography gutterBottom variant="h6" component="div" color={textColor}>
                     {props.title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color={textColor}>
                     {props.desc}
                 </Typography>
             </CardContent>

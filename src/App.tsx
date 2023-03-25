@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {AppBar, Box, CardMedia, Container, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -14,6 +13,9 @@ import {createBrowserHistory} from "history";
 import Features from "./app/feature/Features";
 import TnC from "./app/tnc-checkbox/TncCheckBox";
 import PersonalInfo from "./app/personal-info/PersonalInfo";
+import Intro from "./app/intro/Intro";
+import Banner from "./app/banner/Banner";
+import LicenseBar from "./app/license-bar/LicenseBar";
 
 
 function App() {
@@ -82,6 +84,18 @@ function App() {
             <Header/>
 
             <Box mt={12} mb={12}>
+
+                <Box mt={4}>
+                    <Container maxWidth="md">
+                        <Banner/>
+                    </Container>
+                </Box>
+
+                <Box mt={4}>
+                    <Container maxWidth="md">
+                        <Intro/>
+                    </Container>
+                </Box>
 
                 <Box mt={4}>
                     <Container maxWidth="md">
@@ -180,6 +194,8 @@ function App() {
                     </Container>
                 </Box>
             </Box>
+
+            <LicenseBar/>
 
             {
                 openResultDialog ? (
