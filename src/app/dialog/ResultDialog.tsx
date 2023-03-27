@@ -6,13 +6,13 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
+    DialogTitle, Divider,
     ThemeProvider,
     Typography
 } from "@mui/material";
 import CheckCircle from "@mui/icons-material/CheckCircle";
 import {makeStyles} from "tss-react/mui";
-import {Cancel, DoDisturbOn} from "@mui/icons-material";
+import {Cancel, DoDisturbOn, Image} from "@mui/icons-material";
 import PersonalInfo from "../../domain/entities/order/personal-info";
 
 
@@ -55,7 +55,12 @@ export default function ResultDialog(props: ResultDialogProps) {
     let personalInfo: PersonalInfo = {};
     if (encodePersonalInfo) {
         console.log(`encodePersonalInfo: ${encodePersonalInfo}`)
-        personalInfo = JSON.parse(decodeURIComponent(encodePersonalInfo))
+        personalInfo = JSON.parse(decodeURIComponent(encodePersonalInfo), (key, value) => {
+            if (key === 'startDate' || key === 'endDate') {
+                return new Date(value);
+            }
+            return value;
+        })
         console.log(`jsonPersonalInfo: ${personalInfo}`)
     }
 
@@ -90,7 +95,11 @@ export default function ResultDialog(props: ResultDialogProps) {
     }
 
     return (
-        <Dialog open={open} onClose={onClose} aria-labelledby="payment-result-dialog-title">
+        <Dialog open={open} onClose={onClose} aria-labelledby="payment-result-dialog-title" PaperProps={{
+            style: {
+                width: '80%',
+            }
+        }}>
             <DialogTitle id="payment-result-dialog-title" className={classes.dialogTitle}>
                 Payment Result
             </DialogTitle>
@@ -101,14 +110,16 @@ export default function ResultDialog(props: ResultDialogProps) {
                         <Typography variant="h6" className={classes.dialogContentText}>
                             Thank you for your payment!
                         </Typography>
+                        <Typography variant="body2" className={classes.dialogContentText}>
+                            Your payment receipt has been emailed to {personalInfo?.email}.
+                        </Typography>
+                        <Divider/>
+                        <Box height={16}/>
                         <Typography variant="body1" className={classes.dialogContentText}>
                             Merchant ID: {paymentMerchantId}
                         </Typography>
                         <Typography variant="body1" className={classes.dialogContentText}>
                             Prepay ID: {paymentPrepayId}
-                        </Typography>
-                        <Typography variant="body2" className={classes.dialogContentText}>
-                            Your payment receipt has been emailed to {personalInfo?.email}.
                         </Typography>
                     </>
                 ) : (
@@ -124,15 +135,25 @@ export default function ResultDialog(props: ResultDialogProps) {
                 <Typography variant="body1" className={classes.dialogContentText}>
                     Contact Information
                 </Typography>
-                <Typography variant="body2" className={classes.dialogContentText}>
+                <Typography variant="body1" className={classes.dialogContentText}>
                     Name: {personalInfo.firstName} {personalInfo.lastName}
                 </Typography>
-                <Typography variant="body2" className={classes.dialogContentText}>
+                <Typography variant="body1" className={classes.dialogContentText}>
                     Email: {personalInfo.email}
                 </Typography>
-                <Typography variant="body2" className={classes.dialogContentText}>
+                <Typography variant="body1" className={classes.dialogContentText}>
                     Phone: {personalInfo.phone}
                 </Typography>
+                <Typography variant="body1" className={classes.dialogContentText}>
+                    {`Travel date: ${personalInfo.startDate?.toLocaleDateString()} ~ ${personalInfo.endDate?.toLocaleDateString()}`}
+                </Typography>
+                <Typography variant="body1" className={classes.dialogContentText}>
+                    Destination: {personalInfo.destination}
+                </Typography>
+                <Box height={16}/>
+                <img src={"/images/signature.png"} style={{
+                    width: 120,
+                }}/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} className={classes.dialogButton}>
@@ -140,49 +161,5 @@ export default function ResultDialog(props: ResultDialogProps) {
                 </Button>
             </DialogActions>
         </Dialog>
-
-        // <Dialog
-        //     open={open}
-        //     onClose={onClose}
-        //     aria-labelledby="result-dialog-title"
-        //     aria-describedby="result-dialog-description"
-        //     fullWidth={true}
-        //     maxWidth={"xs"}
-        // >
-        //     <DialogTitle
-        //         id="result-dialog-title"
-        //         align={"center"}
-        //     >
-        //         <Typography
-        //             variant="h6"
-        //             component="div"
-        //         >
-        //             Payment Result
-        //         </Typography>
-        //     </DialogTitle>
-        //     <DialogContent>
-        //         <DialogContentText
-        //             id="result-dialog-description"
-        //             sx={theme => ({
-        //                 display: 'flex',
-        //                 alignItems: 'center',
-        //             })}
-        //         >
-        //             {result}
-        //             {resultIcon()}
-        //         </DialogContentText>
-        //         <DialogContentText>
-        //             Merchant ID: {props.paymentMerchantId ? props.paymentMerchantId : "-"}
-        //         </DialogContentText>
-        //         <DialogContentText>
-        //             Payment ID: {props.paymentPrepayId ? props.paymentPrepayId : "-"}
-        //         </DialogContentText>
-        //     </DialogContent>
-        //     <DialogActions>
-        //         <Button onClick={onClose} color="primary">
-        //             Close
-        //         </Button>
-        //     </DialogActions>
-        // </Dialog>
     );
 }

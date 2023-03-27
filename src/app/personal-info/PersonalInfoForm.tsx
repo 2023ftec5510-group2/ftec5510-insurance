@@ -2,6 +2,9 @@ import React from 'react';
 import {Box, Button, TextField, Typography} from '@mui/material';
 import PersonalInfo from "../../domain/entities/order/personal-info";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import dayjs from '@date-io/dayjs';
 
 
 interface Props {
@@ -10,8 +13,8 @@ interface Props {
         name: string;
         value: React.SetStateAction<string>;
     }) => void
-    onChangeStartDate: (date: any) => void;
-    onChangeEndDate: (date: any) => void;
+    onChangeStartDate: (date: Date | null) => void;
+    onChangeEndDate: (date: Date | null) => void;
 }
 
 function PersonalInfoForm(props: Props) {
@@ -84,18 +87,22 @@ function PersonalInfoForm(props: Props) {
                 required
                 autoComplete="nope"
             />
-            <DatePicker
-                label="End Date"
-                value={personalInfo.startDate}
-                onChange={props.onChangeStartDate}
-                disableFuture
-            />
-            <DatePicker
-                label="End Date"
-                value={personalInfo.endDate}
-                onChange={props.onChangeEndDate}
-                disableFuture
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                    label="Travel start day"
+                    value={personalInfo.startDate}
+                    onChange={(event) => {
+                        props.onChangeStartDate(event)
+                    }}
+                />
+                <DatePicker
+                    label="Travel end day"
+                    value={personalInfo.endDate}
+                    onChange={(event) => {
+                        props.onChangeEndDate(event)
+                    }}
+                />
+            </LocalizationProvider>
             <TextField
                 label="Destination"
                 value={personalInfo.destination}

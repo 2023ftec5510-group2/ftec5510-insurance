@@ -169,13 +169,13 @@ function App() {
                             onChangeStartDate={event => {
                                 setPersonalInfo({
                                     ...personalInfo,
-                                    [event.name]: event.value
+                                    startDate: event ? event : undefined
                                 })
                             }}
                             onChangeEndDate={event => {
                                 setPersonalInfo({
                                     ...personalInfo,
-                                    [event.name]: event.value
+                                    endDate: event ? event : undefined
                                 })
                             }}
                         />
