@@ -166,6 +166,18 @@ function App() {
                                     [event.name]: event.value
                                 })
                             }}
+                            onChangeStartDate={event => {
+                                setPersonalInfo({
+                                    ...personalInfo,
+                                    [event.name]: event.value
+                                })
+                            }}
+                            onChangeEndDate={event => {
+                                setPersonalInfo({
+                                    ...personalInfo,
+                                    [event.name]: event.value
+                                })
+                            }}
                         />
                     </Container>
                 </Box>

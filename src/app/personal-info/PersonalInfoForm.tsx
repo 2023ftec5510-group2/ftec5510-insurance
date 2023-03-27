@@ -1,6 +1,7 @@
 import React from 'react';
-import {Box, TextField, Typography} from '@mui/material';
+import {Box, Button, TextField, Typography} from '@mui/material';
 import PersonalInfo from "../../domain/entities/order/personal-info";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 interface Props {
@@ -9,6 +10,8 @@ interface Props {
         name: string;
         value: React.SetStateAction<string>;
     }) => void
+    onChangeStartDate: (date: any) => void;
+    onChangeEndDate: (date: any) => void;
 }
 
 function PersonalInfoForm(props: Props) {
@@ -38,15 +41,6 @@ function PersonalInfoForm(props: Props) {
                         value: event.target.value
                     })}
                 }
-                // onChange={(event: { target: { value: React.SetStateAction<string>; }; }) =>
-                //     setPersonalInfo((prevState) => ({
-                //         ...prevState,
-                //         personalInfo: {
-                //             ...prevState,
-                //             firstName: event.target.value
-                //         }
-                //     }))
-                // }
                 required
                 // variant="standard"
                 autoComplete="nope"
@@ -87,9 +81,31 @@ function PersonalInfoForm(props: Props) {
                         value: event.target.value
                     })}
                 }
-                // type="tel"
                 required
-                // variant="standard"
+                autoComplete="nope"
+            />
+            <DatePicker
+                label="End Date"
+                value={personalInfo.startDate}
+                onChange={props.onChangeStartDate}
+                disableFuture
+            />
+            <DatePicker
+                label="End Date"
+                value={personalInfo.endDate}
+                onChange={props.onChangeEndDate}
+                disableFuture
+            />
+            <TextField
+                label="Destination"
+                value={personalInfo.destination}
+                onChange={(event) => {
+                    props.onchange({
+                        name: "destination",
+                        value: event.target.value
+                    })}
+                }
+                required
                 autoComplete="nope"
             />
         </Box>

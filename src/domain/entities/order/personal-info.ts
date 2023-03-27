@@ -3,4 +3,7 @@ export default interface PersonalInfo {
     lastName?: string;
     email?: string;
     phone?: string;
+    startDate?: Date;
+    endDate?: Date;
+    destination?: string;
 }
