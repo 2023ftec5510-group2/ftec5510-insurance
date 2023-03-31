@@ -14,9 +14,15 @@ export enum PaymentMethod {
 
 export default function Payment(props: Props) {
 
+    const backgroundColor = props.paymentMethod === PaymentMethod.crypto ? "#071e26" : "#ffffff"
+
     return (
         <Card
-            sx={{height: "60px", padding: "20px"}}
+            sx={{
+                height: "60px",
+                padding: "20px",
+                backgroundColor: backgroundColor,
+            }}
             onClick={props.onClick}
         >
             <img
