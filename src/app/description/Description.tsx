@@ -12,9 +12,6 @@ export default function Description() {
             <li style={{ fontSize: '14px' }}>
                 Personal Accident benefit up to $1,000,000
             </li>
-            <li style={{ fontSize: '14px' }}>
-                Personal Accident benefit up to $1,000,000
-            </li>
         </Box>
     )
 }
