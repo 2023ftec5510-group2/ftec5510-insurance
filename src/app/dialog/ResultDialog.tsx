@@ -152,7 +152,7 @@ export default function ResultDialog(props: ResultDialogProps) {
                 </Typography>
                 <Box height={16}/>
                 <img src={"/images/signature.png"} style={{
-                    width: 120,
+                    width: 140,
                 }}/>
             </DialogContent>
             <DialogActions>
