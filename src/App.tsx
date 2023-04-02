@@ -125,7 +125,7 @@ function App() {
                             <Grid2 xs={4}>
                                 <PlanCard
                                     imgSrc="/images/plans/plan-a.jpg"
-                                    price={4.9}
+                                    price={0.9}
                                     title="Basic Plan"
                                     desc="The most economical choice."
                                     selected={selectedPlan === 0}
@@ -135,7 +135,7 @@ function App() {
                             <Grid2 xs={4}>
                                 <PlanCard
                                     imgSrc="/images/plans/plan-b.jpg"
-                                    price={9.9}
+                                    price={4.9}
                                     title="Prime Plan"
                                     desc="Peace of mind for your business."
                                     selected={selectedPlan === 1}
